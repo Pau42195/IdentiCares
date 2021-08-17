@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.gruixuts.GeniusCares.act_manteniment_llista">
+    tools:context="com.gruixuts.identicares.act_manteniment_llistaAnt">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,19 +70,15 @@
             </LinearLayout>
         </LinearLayout>
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/Titol"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:text="Grup:"
+            android:textAppearance="@android:style/TextAppearance.Material.Large.Inverse" />
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-        </android.support.design.widget.AppBarLayout>
 
         <FrameLayout
             android:id="@+id/frameLayout"
@@ -92,10 +88,11 @@
 
             <include
                 layout="@layout/activity_manteniment_llista_llista"
-                android:layout_height="403dp" />
+                android:layout_height="403dp"
+                android:layout_width="match_parent" />
         </FrameLayout>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,4 +103,4 @@
     </LinearLayout>
 
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
