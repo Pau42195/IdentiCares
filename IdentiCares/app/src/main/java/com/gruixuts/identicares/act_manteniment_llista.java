@@ -24,7 +24,7 @@ public class act_manteniment_llista extends AppCompatActivity {
      */
 
     GestorDB db;
-
+/*
     public void GrAll(View view) {
         List<classDiccionari> items = objLlistaTrobats.ITEMS;
         String strNouGrup =  "" + ((TextView) findViewById(R.id.edtMmrGrTxt)).getText() ;
@@ -46,11 +46,10 @@ public class act_manteniment_llista extends AppCompatActivity {
         }
         db.close();
     }
-
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manteniment_llista_marc);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -76,9 +75,9 @@ public class act_manteniment_llista extends AppCompatActivity {
             mTwoPane = true;
         }
 */
-        View recyclerView = findViewById(R.id.trobat_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+//        View recyclerView = findViewById(R.id.trobat_list);
+//        assert recyclerView != null;
+//        setupRecyclerView((RecyclerView) recyclerView);
     }
 
 
@@ -142,8 +141,8 @@ public class act_manteniment_llista extends AppCompatActivity {
                 super(view);
                 mIdView = (TextView) view.findViewById(R.id.ll_id);
                 mCodiView = (TextView) view.findViewById(R.id.ll_codi);
-                mCatalaView = (TextView) view.findViewById(R.id.ll_catala);
-                mBascView = (TextView) view.findViewById(R.id.ll_basc);
+                mCatalaView = (TextView) view.findViewById(R.id.ll_nom);
+                mBascView = (TextView) view.findViewById(R.id.ll_cognom1);
             }
         }
 
