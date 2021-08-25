@@ -228,14 +228,35 @@ public class act_mnt_edita  extends AppCompatActivity {
         else {
             return;
         }
-        // Create an image file name
+        // Crea el nom del fitxer de la nova imatge
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
+
+        // Crea la carpeta (si cal)
+        if (numImatge == 0) {  // Miro si ja hi ha carpeta
+            // Si numImatge == 0 vol dir que no hi ha fotos, si n'hi hagués vol dir que la carpeta existeix
+            if (mItem.getImatges().length()==0) {
+                // No hi ha texte d'imatges, per tant cal decidir-lo
+                if (mItem.getCodi().length()==0) {  // No hi ha codi => cal inventar-se un nom
+                    mItem.setImatges(classDiccionari.NovaImatge());   //Assigna nom aleatori
+                } else {
+                    mItem.setImatges(mItem.getCodi()); // Però no hi ha garanties de que no sigui repetit
+                }
+            }
+        }
+        File fi = new File (CarpetaImatgesItem + "/" + mItem.getImatges());
+        if (!fi.exists()) {
+            if (!fi.mkdirs()) {
+                Toast.makeText(this, "No s'ha pogut crear la carpeta:" + fi.getName(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        // Creo el fitxer
         try {
             image = File.createTempFile(
                     imageFileName,  /* prefix */
                     ".jpg",         /* suffix */
-                    new File(CarpetaImatges)      /* directory */
+                    new File(CarpetaImatgesItem)      /* directory */
             );
         } catch (IOException e) {
             e.printStackTrace();
