@@ -95,7 +95,7 @@ public class act_mnt_sel extends AppCompatActivity {
     }
     public void MntCrea(View view) {
         Intent myIntent = new Intent(act_mnt_sel.this, act_mnt_edita.class);
-        myIntent.putExtra(act_mnt_edita.ARG_ITEM_ID, "");
+        myIntent.putExtra(act_mnt_edita.ARG_ITEM_ID, "0");
         startActivity(myIntent);
 
     }

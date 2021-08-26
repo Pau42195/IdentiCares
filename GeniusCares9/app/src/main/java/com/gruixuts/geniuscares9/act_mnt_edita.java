@@ -2,6 +2,7 @@ package com.gruixuts.geniuscares9;
 
 import static java.lang.Integer.parseInt;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -43,7 +44,7 @@ public class act_mnt_edita  extends AppCompatActivity {
     private String CarpetaImatges;
     private String CarpetaImatgesItem;  // La carpeta del Item actual
     private Integer numImatge;
-    private String nomsImatge[]={};
+    private String nomsImatge[] = {};
     static final int REQUEST_IMAGE_CAPTURE = 17;
 
     protected static final int REQUEST_CODE = 10;
@@ -55,7 +56,12 @@ public class act_mnt_edita  extends AppCompatActivity {
         ResetApres = false;
         numIndex = Integer.parseInt(getIntent().getStringExtra(ARG_ITEM_ID));
         CarpetaImatges = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pau/GeniusCares/Imatges";
-        mItem = objLlistaTrobats.ITEMS.get(numIndex);
+        db=  new GestorDB(getApplicationContext());
+        if (numIndex == 0) {
+            mItem = new classDiccionari();
+        } else {
+            mItem = objLlistaTrobats.ITEMS.get(numIndex);
+        }
         CarregaItem(mItem);
 
     }
@@ -72,46 +78,62 @@ public class act_mnt_edita  extends AppCompatActivity {
             ((TextView) findViewById(R.id.edtModGrup)).setText(item.getGrup());
             switch (item.getNextTipus()) {
                 case "t":
-                    ((RadioButton) findViewById(R.id.rdT)).setChecked(true); break;
+                    ((RadioButton) findViewById(R.id.rdT)).setChecked(true);
+                    break;
                 case "a":
-                    ((RadioButton) findViewById(R.id.rdA)).setChecked(true); break;
+                    ((RadioButton) findViewById(R.id.rdA)).setChecked(true);
+                    break;
                 case "1h":
-                    ((RadioButton) findViewById(R.id.rd1h)).setChecked(true); break;
+                    ((RadioButton) findViewById(R.id.rd1h)).setChecked(true);
+                    break;
                 case "1d":
-                    ((RadioButton) findViewById(R.id.rd1d)).setChecked(true); break;
+                    ((RadioButton) findViewById(R.id.rd1d)).setChecked(true);
+                    break;
                 case "1s":
-                    ((RadioButton) findViewById(R.id.rd1s)).setChecked(true); break;
+                    ((RadioButton) findViewById(R.id.rd1s)).setChecked(true);
+                    break;
                 case "1m":
-                    ((RadioButton) findViewById(R.id.rd1m)).setChecked(true); break;
+                    ((RadioButton) findViewById(R.id.rd1m)).setChecked(true);
+                    break;
                 case "6m":
-                    ((RadioButton) findViewById(R.id.rd6m)).setChecked(true); break;
+                    ((RadioButton) findViewById(R.id.rd6m)).setChecked(true);
+                    break;
                 default:
                     Toast toast = Toast.makeText(getApplicationContext(), "Tipus propera acció: '" + (item.getNextTipus()) + "' no identificat", Toast.LENGTH_LONG);
-                    toast.show();;
-                    ((RadioButton) findViewById(R.id.rdT)).setChecked(true); break;
+                    toast.show();
+                    ;
+                    ((RadioButton) findViewById(R.id.rdT)).setChecked(true);
+                    break;
             }
             ((TextView) findViewById(R.id.edtModNextData)).setText(item.getNextDataTxt());
-            CarpetaImatgesItem = CarpetaImatges + "/" + item.getImatges();
-            File carpeta = new File(CarpetaImatgesItem);
-            if(!carpeta.exists()) { // Crear-la
-                numImatge =0;
-                //carpeta.mkdirs();
-                nomsImatge = new String[0];
+            // Imatges:
+            if (item.getImatges()!=null) {
+                assert (item.getImatges().length()>0);
+                CarpetaImatgesItem = CarpetaImatges + "/" + item.getImatges();
+                File carpeta = new File(CarpetaImatgesItem);
+                if (!carpeta.exists()) { // Crear-la
+                    MissatgeError("La cerpeta d'immatges " + CarpetaImatgesItem + " no existeix");
+                    numImatge = 0;
+                    //carpeta.mkdirs();
+                    nomsImatge = new String[0];
 
-            }
-            else {
-                nomsImatge = carpeta.list();
-            }
-            if (nomsImatge.length != 0) {
-                numImatge = 1;
-                Drawable d = Drawable.createFromPath(CarpetaImatgesItem + "/" + nomsImatge[numImatge - 1]);
-                ((ImageView) findViewById(R.id.imgImatges)).setImageDrawable(d);
-            }
-            else {
+                } else {
+                    nomsImatge = carpeta.list();
+                }
+                if (nomsImatge.length != 0) {
+                    numImatge = 1;
+                    Drawable d = Drawable.createFromPath(CarpetaImatgesItem + "/" + nomsImatge[numImatge - 1]);
+                    ((ImageView) findViewById(R.id.imgImatges)).setImageDrawable(d);
+                } else {
+                    numImatge = 0;
+                }
+            } else {
+                CarpetaImatgesItem="";
                 numImatge = 0;
+                nomsImatge = new String[0];
             }
-        }
-        else {
+        } else {
+            MissatgeError("item=null, i no hauria de ser");
             ((TextView) findViewById(R.id.txtModId)).setText("");
             ((TextView) findViewById(R.id.edtModNom)).setText("");
             ((TextView) findViewById(R.id.edtModCognom1)).setText("");
@@ -150,7 +172,6 @@ public class act_mnt_edita  extends AppCompatActivity {
         } else if (((RadioButton) findViewById(R.id.rd6m)).isChecked()) {
             item.setNextTipus("6m");
         } else item.setNextTipus("t");
-
         item.setNextData(((TextView) findViewById(R.id.edtModNextData)).getText().toString());
 
         // Consistència
@@ -174,12 +195,11 @@ public class act_mnt_edita  extends AppCompatActivity {
                         cal.add(Calendar.DATE, 28);
                         break;
                     case "6m":
-                        cal.add(Calendar.DATE, 28*6);
+                        cal.add(Calendar.DATE, 28 * 6);
                 }
                 item.setNextData(cal.getTime());
             }
         }
-
 
 
     }
@@ -189,7 +209,7 @@ public class act_mnt_edita  extends AppCompatActivity {
     /*************************************************************************/
 
     public void fotoSeguent(View view) {
-        if (numImatge < nomsImatge.length && numImatge >0) {
+        if (numImatge < nomsImatge.length && numImatge > 0) {
             numImatge++;
             Drawable d = Drawable.createFromPath(CarpetaImatgesItem + "/" + nomsImatge[numImatge - 1]);
             ((ImageView) findViewById(R.id.imgImatges)).setImageDrawable(d);
@@ -197,7 +217,7 @@ public class act_mnt_edita  extends AppCompatActivity {
     }
 
     public void fotoAnterior(View view) {
-        if (numImatge > 1 ) {
+        if (numImatge > 1) {
             numImatge--;
             Drawable d = Drawable.createFromPath(CarpetaImatgesItem + "/" + nomsImatge[numImatge - 1]);
             ((ImageView) findViewById(R.id.imgImatges)).setImageDrawable(d);
@@ -206,12 +226,13 @@ public class act_mnt_edita  extends AppCompatActivity {
 
     public void fotoAfegeix(View view) {
         Intent CameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(CameraIntent.resolveActivity(getPackageManager()) != null){
+        if (CameraIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(CameraIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
-    public void fotoElimina(View view) {
 
+    public void fotoElimina(View view) {
+        MissatgeError("Opció encara no implementada");
     }
 
     // Es crida després d'haver fet la foto
@@ -219,13 +240,11 @@ public class act_mnt_edita  extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Bitmap imgBitmap;
         ImageView imgView = findViewById(R.id.imgImatges);
-        File image = null;
+        File imatge = null;
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             imgBitmap = (Bitmap) extras.get("data");
-            imgView.setImageBitmap(imgBitmap);
-        }
-        else {
+        } else {
             return;
         }
         // Crea el nom del fitxer de la nova imatge
@@ -233,58 +252,62 @@ public class act_mnt_edita  extends AppCompatActivity {
         String imageFileName = "JPEG_" + timeStamp + "_";
 
         // Crea la carpeta (si cal)
-        if (numImatge == 0) {  // Miro si ja hi ha carpeta
+        if (CarpetaImatgesItem.length()==0) {  // Miro si ja hi ha carpeta
             // Si numImatge == 0 vol dir que no hi ha fotos, si n'hi hagués vol dir que la carpeta existeix
-            if (mItem.getImatges().length()==0) {
-                // No hi ha texte d'imatges, per tant cal decidir-lo
-                if (mItem.getCodi().length()==0) {  // No hi ha codi => cal inventar-se un nom
-                    mItem.setImatges(classDiccionari.NovaImatge());   //Assigna nom aleatori
-                } else {
-                    mItem.setImatges(mItem.getCodi()); // Però no hi ha garanties de que no sigui repetit
-                }
+            // No hi ha texte d'imatges, per tant cal decidir-lo
+            assert (numImatge==0);
+            assert (nomsImatge.length==0);
+            mItem.setCodi(((TextView) findViewById(R.id.edtModCodi)).getText().toString()); // Per si s'està editant, que serà el normal
+            if (mItem.getCodi().length() == 0) {  // No hi ha codi => cal inventar-se un nom
+                mItem.setImatges(classDiccionari.NovaImatge());   //Assigna nom aleatori
+            } else {
+                mItem.setImatges(mItem.getCodi());
             }
+            CarpetaImatgesItem=CarpetaImatges + "/" + mItem.getImatges();
         }
-        File fi = new File (CarpetaImatgesItem + "/" + mItem.getImatges());
+        File fi = new File(CarpetaImatgesItem);
         if (!fi.exists()) {
             if (!fi.mkdirs()) {
-                Toast.makeText(this, "No s'ha pogut crear la carpeta:" + fi.getName(), Toast.LENGTH_SHORT).show();
+                MissatgeError("No s'ha pogut crear la carpeta:" + fi.getName());
+                //Toast.makeText(this, "No s'ha pogut crear la carpeta:" + fi.getName(), Toast.LENGTH_SHORT).show();
+                numImatge=0;
+                nomsImatge = new String[0];
+                CarpetaImatgesItem="";
                 return;
             }
         }
         // Creo el fitxer
         try {
-            image = File.createTempFile(
+            imatge = File.createTempFile(
                     imageFileName,  /* prefix */
                     ".jpg",         /* suffix */
                     new File(CarpetaImatgesItem)      /* directory */
             );
         } catch (IOException e) {
             e.printStackTrace();
+            MissatgeError("No es pot crear el nou fitxer (tmp):" + e.getMessage());
+            return;
         }
         try {
-            FileOutputStream fOut = new FileOutputStream(image);
+            FileOutputStream fOut = new FileOutputStream(imatge);
 
             imgBitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
             fOut.flush();
             fOut.close();
 //            MakeSureFileWasCreatedThenMakeAvabile(file);
 //            AbleToSave();
-        }
-
-        catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
+            MissatgeError("No es pot crear el nou fitxer (no se sap perquè):" + e.getMessage());
             //          Toast.makeText(context, "¡No se ha podido guardar la imagen!", Toast.LENGTH_SHORT).show();
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
+            MissatgeError("No es pot crear el nou fitxer:" + e.getMessage());
 //            Toast.makeText(context, "¡No se ha podido guardar la imagen!", Toast.LENGTH_SHORT).show();
         }
 
-        numImatge = nomsImatge.length;
+        imgView.setImageBitmap(imgBitmap);
+        numImatge = nomsImatge.length+1;
         nomsImatge = Arrays.copyOf(nomsImatge, numImatge);
-        nomsImatge[numImatge -1]= imageFileName + ".jpg";
-
-
-        // Save a file: path for use with ACTION_VIEW intents
-        //currentPhotoPath = image.getAbsolutePath();
+        nomsImatge[numImatge - 1] = imatge.getName();
 
     }
 
@@ -296,8 +319,7 @@ public class act_mnt_edita  extends AppCompatActivity {
     public void cmd_Ok(View view) {
         db.open();
         DescarregaItem(mItem);
-        db.open();
-        if (mItem.getId()==0) {
+        if (mItem.getId() == 0) {
             db.creaDiccionari(mItem);
         } else {
             db.actDiccionari(mItem);
@@ -326,7 +348,7 @@ public class act_mnt_edita  extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         db.open();
-                        if (mItem.getId()!=0) {
+                        if (mItem.getId() != 0) {
                             db.delEntDic(mItem.getId());
                         }
                         db.close();
@@ -378,6 +400,25 @@ public class act_mnt_edita  extends AppCompatActivity {
 
     }
 
+    private void MissatgeError(String Missatge) {
+        MissatgeError(Missatge, "Error!!!");
+    }
+
+    private void MissatgeError(String Missatge, String Titol) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(Missatge);
+        builder.setTitle(Titol);
+        builder.setCancelable(false);
+        builder.setNeutralButton("Entesos",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 }
+
 
 

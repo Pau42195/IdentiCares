@@ -73,7 +73,7 @@ public class act_import_export  extends AppCompatActivity {
 
 
     public void ImportarCopia(View view) {
-        //Todo: Importar Proves i resultats
+        //Todo: Importar Proves i Resultats
         Exportar(view);
         GestorDB db = new GestorDB(getApplicationContext());
         TextView elim = findViewById(R.id.edtEliminarOk);
@@ -86,7 +86,7 @@ public class act_import_export  extends AppCompatActivity {
         long NumLin = 0;
 
         // Provisional, per a fer proves:
-        nomfit.setText("proves.txt");
+        nomfit.setText("AImportar.txt");
         elim.setText("ELIMINAR");
         // Miro si s'ha escrit la paraula ELIMINAR (per seguretat)
         if (elim.getText().toString().compareTo("ELIMINAR") == 0) {

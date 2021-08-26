@@ -38,4 +38,5 @@ public class act_mnt_llista extends AppCompatActivity  {
                 ((LinearLayoutManager) recyclerView.getLayoutManager()).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
+
 }

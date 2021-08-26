@@ -50,13 +50,7 @@ public class classDiccionari {
 
     public classDiccionari(Integer id, String imatges, String nom, String cognom1, String cognom2, String curs, String codi, String pav, String comentaris, String grup, String nexttipus, Date nextdata, Boolean amemoritzar) {
         Id = id;
-        if (imatges == null) {
-            Imatges = NovaImatge();
-        } else if (imatges.equals("")) {
-            Imatges = NovaImatge();
-        } else {
-            Imatges = imatges;
-        }
+        Imatges = imatges;
         Nom = nom;
         Cognom1 = cognom1;
         Cognom2 = cognom2;
@@ -91,13 +85,13 @@ public class classDiccionari {
     public classDiccionari(Integer id, String nom, String cognom1) {
         Id = id;
         Codi = "";
-        Imatges = NovaImatge();
+        Imatges = null;
         Nom = nom;
         Cognom1=cognom1;
         this.PAV = "";
         Comentaris = "";
         Grup = "";
-        NextTipus = "a";
+        NextTipus = "t";
         NextData = null;
         AMemoritzar = true;
 
@@ -106,7 +100,7 @@ public class classDiccionari {
     public classDiccionari() {
         Id = 0;
         Codi = "";
-        Imatges = NovaImatge();
+        Imatges = null;
         Nom = "";
         Cognom1 = "";
         Cognom2 = "";
@@ -114,7 +108,7 @@ public class classDiccionari {
         PAV = "";
         Comentaris = "";
         Grup = "";
-        NextTipus = "a";
+        NextTipus = "t";
         NextData = null;
         AMemoritzar = true;
     }
