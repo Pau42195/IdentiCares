@@ -30,10 +30,24 @@ public class MainActivity extends AppCompatActivity {
         Intent myIntent = new Intent(MainActivity.this, act_mnt_sel.class);
         MainActivity.this.startActivity(myIntent);
     }
+
+    public void goToMemoritzar(View view) {
+        Intent myIntent = new Intent(MainActivity.this, act_mem_sel.class);
+        MainActivity.this.startActivity(myIntent);
+    }
+
+    public void goToRepassar(View view) {
+        Intent myIntent = new Intent(MainActivity.this, act_rep_sel.class);
+        MainActivity.this.startActivity(myIntent);
+    }
+
 /*
     public void goToTest(View view) {
         Intent myIntent = new Intent(MainActivity.this, act_mnt_llista.class);
         MainActivity.this.startActivity(myIntent);
     }
 */
+
+
+
 }

@@ -94,8 +94,9 @@ public class act_mnt_sel extends AppCompatActivity {
         startActivity(myIntent);
     }
     public void MntCrea(View view) {
+        objLlistaTrobats.ITEMS.clear();
         Intent myIntent = new Intent(act_mnt_sel.this, act_mnt_edita.class);
-        myIntent.putExtra(act_mnt_edita.ARG_ITEM_ID, "0");
+        myIntent.putExtra(act_mnt_edita.ARG_ITEM_ID, "-1");
         startActivity(myIntent);
 
     }

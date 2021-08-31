@@ -2,6 +2,7 @@ package com.gruixuts.geniuscares9;
 
 import android.content.Context;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +12,7 @@ public class objLlistaTrobats {
 
     public static final List<classDiccionari> ITEMS = new ArrayList<classDiccionari>();
     public static final Map<String, classDiccionari> ITEM_MAP = new HashMap<String, classDiccionari>();
-
+    public static String Filtre;
 
     public static void NouSQLtxt (String filtre, String ordre, Context c) {
         ITEMS.clear();
@@ -25,6 +26,7 @@ public class objLlistaTrobats {
         for (Integer i = 1; i <= Llista.size(); i++) {
             addItem(i.toString(), Llista.get(i-1));
         }
+        Filtre = filtre;
     }
 
     private static void addItem(String Pos, classDiccionari item) {

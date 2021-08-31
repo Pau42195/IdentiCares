@@ -133,6 +133,14 @@ public class classDiccionari {
         return Imatges;
     }
 
+    public String getImatgesTxt() {
+        if (Imatges == null) {
+            return "";
+        } else {
+            return Imatges;
+        }
+    }
+
     public void setImatges(String imatges) {
         Imatges = imatges;
     }

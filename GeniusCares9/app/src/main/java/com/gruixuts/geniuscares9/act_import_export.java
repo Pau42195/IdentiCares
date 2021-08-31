@@ -168,10 +168,8 @@ public class act_import_export  extends AppCompatActivity {
                             );*/
                             break;
                         case "R":  // Resultats
-                            /*
-                            Resultat = new classResultats(txt, Separador);
+                            classResultats Resultat = new classResultats(txt);
                             db.insResultat(Resultat);
-                            */
                             break;
                         default:
                             MissatgeError("Error al llegir la línia, tipus de registre no conegut linia " + NumLin,view.getContext());
@@ -258,7 +256,7 @@ public class act_import_export  extends AppCompatActivity {
                 try {
                     fout.write("A" + Separador);
                     fout.write(LlistaDiccionari.get(n).getId().toString() + Separador);
-                    fout.write(LlistaDiccionari.get(n).getImatges().toString() + Separador);
+                    fout.write(LlistaDiccionari.get(n).getImatgesTxt().toString() + Separador);
                     fout.write(LlistaDiccionari.get(n).getNom().toString() + Separador);
                     fout.write(LlistaDiccionari.get(n).getCognom1().toString() + Separador);
                     fout.write(LlistaDiccionari.get(n).getCognom2().toString() + Separador);
@@ -294,13 +292,14 @@ public class act_import_export  extends AppCompatActivity {
             for (int n = 0; n < LlistaResultats.size(); n++) {
                 try {
                 fout.write("R" + Separador);
-                fout.write(LlistaResultats.get(n).getDiaTxt().toString() + Separador);
-                fout.write(LlistaResultats.get(n).getIdProva().toString() + Separador);
-                fout.write(LlistaResultats.get(n).getIdEntDic().toString() + Separador);
-                fout.write(LlistaResultats.get(n).getPregunta().toString() + Separador);
-                fout.write(LlistaResultats.get(n).getResposta().toString() + Separador);
-                fout.write(LlistaResultats.get(n).getCorrecta().toString() + Separador);
-                fout.write(LlistaResultats.get(n).getTemps().toString() + Separador);
+                fout.write(LlistaResultats.get(n).getDiaTxt().toString() + classResultats.Separador);
+                fout.write(LlistaResultats.get(n).getIdProva().toString() + classResultats.Separador);
+                fout.write(LlistaResultats.get(n).getIdItem().toString() + classResultats.Separador);
+                fout.write(LlistaResultats.get(n).getRepasTipus().toString() + classResultats.Separador);
+                fout.write(LlistaResultats.get(n).getRepasDataTxt().toString() + classResultats.Separador);
+                fout.write(LlistaResultats.get(n).getResposta().toString() + classResultats.Separador);
+                fout.write(LlistaResultats.get(n).getErrors().toString() + classResultats.Separador);
+                fout.write(LlistaResultats.get(n).getTemps().toString() + classResultats.Separador);
                 fout.write(LlistaResultats.get(n).getValoracio().toString() + "\r\n");
                 fout.flush();
                 } catch (Exception e) {

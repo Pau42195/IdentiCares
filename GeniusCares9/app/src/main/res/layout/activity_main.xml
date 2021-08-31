@@ -26,4 +26,22 @@
         tools:layout_editor_absoluteX="163dp"
         tools:layout_editor_absoluteY="171dp" />
 
+    <Button
+        android:id="@+id/cmdMemoritzar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Memoritzar"
+        android:onClick="goToMemoritzar"
+        tools:layout_editor_absoluteX="163dp"
+        tools:layout_editor_absoluteY="171dp" />
+
+    <Button
+        android:id="@+id/cmdRepassar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Repassar"
+        android:onClick="goToRepassar"
+        tools:layout_editor_absoluteX="163dp"
+        tools:layout_editor_absoluteY="171dp" />
+
 </LinearLayout>

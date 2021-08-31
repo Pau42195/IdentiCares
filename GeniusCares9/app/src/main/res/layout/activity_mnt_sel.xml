@@ -284,8 +284,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Ordre:"
-                            android:textAppearance="@android:style/TextAppearance.Material.Small"/>
+                            android:text="Ordre:"/>
                         <RadioGroup
                             android:id="@+id/grpOrdre"
                             android:layout_width="fill_parent"
@@ -296,13 +295,13 @@
                                     android:id="@+id/radNom"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Cat " />
+                                    android:text="Nom " />
 
                                 <RadioButton
                                     android:id="@+id/radCognom"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Basc" />
+                                    android:text="Cgnm1" />
 
                                 <RadioButton
                                     android:id="@+id/radCod"
@@ -343,15 +342,17 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:orientation="horizontal">
-                <Button
+                <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="MntBusca"
+                    android:src="@drawable/magnify"
                     android:text="Busca"/>
-                <Button
+                <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="MntCrea"
+                    android:src="@drawable/account_plus"
                     android:text="Crea"/>
         </LinearLayout>
 

@@ -76,7 +76,7 @@ public class GestorDB {
         } catch (Exception ex) {
             Log.e("GestorDB", "selDiccionari: Error al obrir Diccionari");
             // Todo: Ser més clar, ara log.e queda amagat i no t'enteres, potser AlarmDialog
-            MissatgeError("GestorDB: No s'ha pogut obrir la base de dades " + ex.getMessage());
+            Global.MissatgeError("GestorDB: No s'ha pogut obrir la base de dades " + ex.getMessage(),context);
             return null;
         }
 
@@ -85,6 +85,13 @@ public class GestorDB {
     public void close() {
         this.db.close();
     }
+
+
+
+/***********************************************************************************************/
+/*************************  Diccionari  ********************************************************/
+/***********************************************************************************************/
+
 
 
     // Definició de les taules
@@ -108,43 +115,9 @@ public class GestorDB {
 
     }
 
-    private static abstract class ProvesDef implements BaseColumns {
-        public static final String TABLE_NAME = "Proves";
-        public static final String LLISTA_CAMPS = "Id,Dia,TipusProva,Seleccio,NumPreguntes,NumRespostes,Temps,Acabada";
-
-        public static final String Id = "Id";
-        public static final String Dia = "Dia";
-        public static final String TipusProva = "TipusProva";
-        public static final String Seleccio = "Seleccio";
-        public static final String NumPreguntes = "NumPreguntes";
-        public static final String NumRespostes = "NumRespostes";
-        public static final String Temps = "Temps";
-        public static final String Acabada = "Acabada";
-
-    }
-
-    private static abstract class ResultatsDef implements BaseColumns {
-        public static final String TABLE_NAME = "Resultats";
-        //        public static final String LLISTA_CAMPS = "Dia,IdProva,IdEntDic,Pregunta,Resposta,Correcta,Errors,Temps,Valoracio";
-        public static final String LLISTA_CAMPS = "Dia,IdProva,IdEntDic,Resposta,Errors,Temps,Valoracio";
-
-        public static final String Dia = "Dia";
-        public static final String IdProva = "IdProva";
-        public static final String IdEntDic = "IdEntDic";
-        //public static final String Pregunta = "Pregunta";
-        public static final String Resposta = "Resposta";  // Nom,Cognom1,Cognom2,Curs
-        //public static final String Correcta = "Correcta"; // A Eliminar --> Errors
-        public static final String Errors = "Errors";  // 0 => Correcta
-        // Errors comesos: Nom, Cognom1,... Es tracta de tipificar-los
-        public static final String Temps = "Temps";
-        public static final String Valoracio = "Valoracio";  // Per a prioritzar i veure progrés
-    }
-
     // Sentencies per a la creació de taules
     private static final String Diccionari_TABLE_CREATE = "create table " + DiccionariDef.TABLE_NAME
             + " (" + DiccionariDef.Id + " integer primary key, "
-            //+ DiccionariDef.Catala + " text, "
-            //+ DiccionariDef.Basc + " text, "
             + DiccionariDef.Imatges + " text UNIQUE, "
             + DiccionariDef.Nom + " text, "
             + DiccionariDef.Cognom1 + " text, "
@@ -158,32 +131,8 @@ public class GestorDB {
             + DiccionariDef.NextData + " text, "
             + DiccionariDef.AMemoritzar + " integer ); ";
 
-    private static final String Proves_TABLE_CREATE = "create table " + ProvesDef.TABLE_NAME
-            + "(" + ProvesDef.Id + " integer primary key, "
-            + ProvesDef.Dia + " text, "
-            + ProvesDef.TipusProva + " text, "
-            + ProvesDef.Seleccio + " text, "
-            + ProvesDef.NumPreguntes + " integer, "
-            + ProvesDef.NumRespostes + " integer, "
-            + ProvesDef.Temps + " integer, "
-            + ProvesDef.Acabada + " integer );  ";
-
-    private static final String Resultats_TABLE_CREATE = "create table " + ResultatsDef.TABLE_NAME
-            + "(" + ResultatsDef.Dia + " text, "
-            + ResultatsDef.IdProva + " integer, "
-            + ResultatsDef.IdEntDic + " integer, "
-//            + ResultatsDef.Pregunta + " text, "
-            + ResultatsDef.Resposta + " text, "
-//            + ResultatsDef.Correcta + " text, "
-            + ResultatsDef.Errors + " text, "
-            + ResultatsDef.Temps + " text, "
-            + ResultatsDef.Valoracio + " text) ; ";
-
-
-
 
     //Selecció
-
     public ArrayList<classDiccionari> selDiccionari(String Filtre, String Ordre) {
         ArrayList<classDiccionari> list = new ArrayList<classDiccionari>();
         String SQLtxt;
@@ -376,71 +325,6 @@ public class GestorDB {
         }
     }
 
-
-
-
-    public ArrayList<classProves> selProves(String Filtre, String Ordre) {
-        ArrayList<classProves> list = new ArrayList<classProves>();
-        String SQLtxt;
-
-        SQLtxt = "Select " + ProvesDef.LLISTA_CAMPS + " from " + ProvesDef.TABLE_NAME;
-        if (Filtre.length() > 0) {
-            SQLtxt += " where " + Filtre;
-        }
-        if (Ordre.length() > 0) {
-            SQLtxt += " order by " + Ordre;
-        }
-        SQLtxt += " ;";
-        Cursor cursor = this.db.rawQuery(SQLtxt, null);
-        if (cursor.moveToFirst()) {
-            do {
-                try {
-                    classProves entrada = new classProves(cursor);
-                    list.add(entrada);
-                } catch (Exception ex) {
-                    Log.e("GestorDB", "selProves: Error al crear Proves");
-                }
-            } while (cursor.moveToNext());
-        }
-
-        if (cursor != null && !cursor.isClosed()) {//Se cierra el cursor si no está cerrado ya
-            cursor.close();
-        }
-        return list;
-    }
-
-    public ArrayList<classResultats> selResultats(String Filtre, String Ordre) {
-        ArrayList<classResultats> list = new ArrayList<classResultats>();
-        String SQLtxt;
-
-        SQLtxt = "Select " + ResultatsDef.LLISTA_CAMPS + " from " + ResultatsDef.TABLE_NAME;
-        if (Filtre.length() > 0) {
-            SQLtxt += " where " + Filtre;
-        }
-        if (Ordre.length() > 0) {
-            SQLtxt += " order by " + Ordre;
-        }
-        SQLtxt += " ;";
-        Cursor cursor = this.db.rawQuery(SQLtxt, null);
-        if (cursor.moveToFirst()) {
-            do {
-                try {
-                    classResultats entrada = new classResultats(cursor);
-                    list.add(entrada);
-                } catch (Exception ex) {
-                    Log.e("GestorDB", "selResultats: Error al crear Resultats");
-                }
-            } while (cursor.moveToNext());
-        }
-
-        if (cursor != null && !cursor.isClosed()) {//Se cierra el cursor si no está cerrado ya
-            cursor.close();
-        }
-        return list;
-    }
-
-
-
     public ArrayList<classDiccionari> selExamenFallosUlt() {
         ArrayList<classDiccionari> list = new ArrayList<classDiccionari>();
         String SQLtxt;
@@ -487,12 +371,147 @@ public class GestorDB {
     }
 
 
+
+/************************************************************************************/
+/*****************   Proves  ********************************************************/
+/************************************************************************************/
+
+
+    private static abstract class ProvesDef implements BaseColumns {
+        public static final String TABLE_NAME = "Proves";
+        public static final String LLISTA_CAMPS = "Id,Dia,TipusProva,Seleccio,NumPreguntes,NumRespostes,Temps,Acabada";
+
+        public static final String Id = "Id";
+        public static final String Dia = "Dia";
+        public static final String TipusProva = "TipusProva";
+        public static final String Seleccio = "Seleccio";
+        public static final String NumPreguntes = "NumPreguntes";
+        public static final String NumRespostes = "NumRespostes";
+        public static final String Temps = "Temps";
+        public static final String Acabada = "Acabada";
+
+    }
+
+    private static final String Proves_TABLE_CREATE = "create table " + ProvesDef.TABLE_NAME
+            + "(" + ProvesDef.Id + " integer primary key, "
+            + ProvesDef.Dia + " text, "
+            + ProvesDef.TipusProva + " text, "
+            + ProvesDef.Seleccio + " text, "
+            + ProvesDef.NumPreguntes + " integer, "
+            + ProvesDef.NumRespostes + " integer, "
+            + ProvesDef.Temps + " integer, "
+            + ProvesDef.Acabada + " integer );  ";
+
+    public ArrayList<classProves> selProves(String Filtre, String Ordre) {
+        ArrayList<classProves> list = new ArrayList<classProves>();
+        String SQLtxt;
+
+        SQLtxt = "Select " + ProvesDef.LLISTA_CAMPS + " from " + ProvesDef.TABLE_NAME;
+        if (Filtre.length() > 0) {
+            SQLtxt += " where " + Filtre;
+        }
+        if (Ordre.length() > 0) {
+            SQLtxt += " order by " + Ordre;
+        }
+        SQLtxt += " ;";
+        Cursor cursor = this.db.rawQuery(SQLtxt, null);
+        if (cursor.moveToFirst()) {
+            do {
+                try {
+                    classProves entrada = new classProves(cursor);
+                    list.add(entrada);
+                } catch (Exception ex) {
+                    Log.e("GestorDB", "selProves: Error al crear Proves");
+                }
+            } while (cursor.moveToNext());
+        }
+
+        if (cursor != null && !cursor.isClosed()) {//Se cierra el cursor si no está cerrado ya
+            cursor.close();
+        }
+        return list;
+    }
+
+    public classProves getProva(int Id){
+        String SQLtxt = "Select " + ProvesDef.LLISTA_CAMPS + " from " + ProvesDef.TABLE_NAME + " where Id=" + Id;
+        Cursor cursor = this.db.rawQuery(SQLtxt, null);
+        cursor.moveToFirst();
+        return new classProves(cursor);
+    }
+
     public Integer UltimaProva() {
         String SQLtxt = "select max(IdProva) from " + ResultatsDef.TABLE_NAME;
         Cursor cursor = this.db.rawQuery(SQLtxt, null);
         cursor.moveToFirst();
         return cursor.getInt(0);
     }
+
+    public void delProves() {
+        db.delete(ProvesDef.TABLE_NAME, "-1", null);
+    }
+
+
+    /*******************************************************************************/
+    /************************   RESULTATS   ****************************************/
+    /*******************************************************************************/
+
+    private static abstract class ResultatsDef implements BaseColumns {
+        public static final String TABLE_NAME = "Resultats";
+        //        public static final String LLISTA_CAMPS = "Dia,IdProva,IdEntDic,Pregunta,classResposta,Correcta,Errors,Temps,Valoracio";
+        public static final String LLISTA_CAMPS = "Dia,IdProva,IdEntDic,Resposta,Errors,Temps,Valoracio";
+
+        public static final String Dia = "Dia";
+        public static final String IdProva = "IdProva";
+        public static final String IdItem = "IdItem";
+        public static final String RepasTipus = "RepasTipus";
+        public static final String RepasData = "RepasData";
+        public static final String Resposta = "Resposta";  // Nom,Cognom1,Cognom2,Curs
+        public static final String Errors = "Errors";  // Errors comesos: Nom, Cognom1,... Es tracta de tipificar-los
+        public static final String Temps = "Temps";
+        public static final String Valoracio = "Valoracio";  // Perfecte, Revisar, Aprèsm, Oblidat... veure classe Resultats
+    }
+
+    private static final String Resultats_TABLE_CREATE = "create table " + ResultatsDef.TABLE_NAME
+            + "(" + ResultatsDef.Dia + " text, "
+            + ResultatsDef.IdProva + " integer, "
+            + ResultatsDef.IdItem + " integer, "
+            + ResultatsDef.RepasTipus + " text, "
+            + ResultatsDef.RepasData + " text, "
+            + ResultatsDef.Resposta + " text, "
+            + ResultatsDef.Errors + " text, "
+            + ResultatsDef.Temps + " text, "
+            + ResultatsDef.Valoracio + " text) ; ";
+
+    public ArrayList<classResultats> selResultats(String Filtre, String Ordre) {
+        ArrayList<classResultats> list = new ArrayList<classResultats>();
+        String SQLtxt;
+
+        SQLtxt = "Select " + ResultatsDef.LLISTA_CAMPS + " from " + ResultatsDef.TABLE_NAME;
+        if (Filtre.length() > 0) {
+            SQLtxt += " where " + Filtre;
+        }
+        if (Ordre.length() > 0) {
+            SQLtxt += " order by " + Ordre;
+        }
+        SQLtxt += " ;";
+        Cursor cursor = this.db.rawQuery(SQLtxt, null);
+        if (cursor.moveToFirst()) {
+            do {
+                try {
+                    classResultats entrada = new classResultats(cursor);
+                    list.add(entrada);
+                } catch (Exception ex) {
+                    Log.e("GestorDB", "selResultats: Error al crear Resultats");
+                }
+            } while (cursor.moveToNext());
+        }
+
+        if (cursor != null && !cursor.isClosed()) {//Se cierra el cursor si no está cerrado ya
+            cursor.close();
+        }
+        return list;
+    }
+
 
     public Integer QuantsRep(String TipRep) {
         String[] Camps = new String[2];
@@ -520,9 +539,6 @@ public class GestorDB {
     }
     public void delEntDic(Integer Id) {
         db.delete(DiccionariDef.TABLE_NAME, "Id=" + Id, null);
-    }
-    public void delProves() {
-        db.delete(ProvesDef.TABLE_NAME, "-1", null);
     }
     public void delResultats() {
         db.delete(ResultatsDef.TABLE_NAME, "-1", null);
@@ -602,7 +618,7 @@ public class GestorDB {
         // Parells clau-valor
         values.put(ResultatsDef.Dia, Rslt.getDiaTxt());
         values.put(ResultatsDef.IdProva, Rslt.getIdProva());
-        values.put(ResultatsDef.IdEntDic, Rslt.getIdEntDic());
+        values.put(ResultatsDef.IdItem, Rslt.getIdItem());
         //values.put(ResultatsDef.Pregunta, Rslt.getPregunta());
         values.put(ResultatsDef.Resposta, Rslt.getResposta());
         //values.put(ResultatsDef.Correcta, Rslt.getCorrecta());
@@ -701,22 +717,6 @@ public class GestorDB {
         values.put(ProvesDef.Temps, prova.getTemps());
         values.put(ProvesDef.Acabada, prova.getAcabada());
         db.update(ProvesDef.TABLE_NAME, values, "Id=" + prova.getId(), null);
-    }
-
-    private void MissatgeError(String Missatge) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(Missatge);
-        builder.setTitle("Error!!!");
-        builder.setCancelable(false);
-        builder.setNeutralButton("Entesos",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-
     }
 
 

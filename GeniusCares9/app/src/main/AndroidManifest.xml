@@ -23,6 +23,11 @@
         <activity android:name=".act_mnt_sel" />
         <activity android:name=".act_mnt_llista"/>
         <activity android:name=".act_mnt_edita"/>
+        <activity android:name=".act_mem" />
+        <activity android:name=".act_mem_sel" />
+        <activity android:name=".act_rep_sel" />
+        <activity android:name=".act_preg" />
+        <activity android:name=".act_preg_aval" />
     </application>
 
 </manifest>

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".act_mnt_edita">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,30 +48,34 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/cmdModSegFoto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="fotoSeguent"
-                android:text=">" />
-
-            <Button
+            <ImageButton
                 android:id="@+id/cmdModAntFoto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:src="@drawable/arrow_left_circle_outline"
                 android:onClick="fotoAnterior"
                 android:text="Ant" />
 
-            <Button
+            <ImageButton
+                android:id="@+id/cmdModSegFoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/arrow_right_circle_outline"
+                android:onClick="fotoSeguent"
+                android:text=">" />
+
+            <ImageButton
                 android:id="@+id/cmdModAddFoto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:src="@drawable/plus_circle_outline"
                 android:onClick="fotoAfegeix"
                 android:text="+" />
-            <Button
+            <ImageButton
                 android:id="@+id/cmdModEliFoto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:src="@drawable/delete_circle_outline"
                 android:onClick="fotoElimina"
                 android:text="-" />
         </LinearLayout>
@@ -199,12 +205,6 @@
                     android:singleLine="true"
                     android:text="0"  />
 
-                <Button
-                    android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:gravity="right"
-                    android:onClick="BuscaCodi"
-                    android:text="..." />
             </LinearLayout>
         </TableRow>
 
@@ -351,39 +351,44 @@
         android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:id="@+id/cmdModGrava"
             android:layout_width="62dp"
             android:layout_height="wrap_content"
+            android:src="@drawable/check_bold"
             android:onClick="cmd_Ok"
             android:text="Ok" />
 
-        <Button
+        <ImageButton
             android:id="@+id/cmdModCancella"
             android:layout_width="71dp"
             android:layout_height="wrap_content"
+            android:src="@drawable/backup_restore"
             android:onClick="cmd_Cancella"
             android:text="Canc." />
 
-        <Button
+        <ImageButton
             android:id="@+id/cmdModElim"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
+            android:src="@drawable/trash_can_outline"
             android:onClick="cmd_Elimina"
             android:text="Elim" />
 
-        <Button
+        <ImageButton
             android:id="@+id/cmdModAnt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="Anterior"
+            android:src="@drawable/arrow_left_bold"
+            android:onClick="cmd_Ant"
             android:text="Ant" />
 
-        <Button
+        <ImageButton
             android:id="@+id/cmdModSeg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="Seguent"
+            android:src="@drawable/arrow_right_bold"
+            android:onClick="cmd_Seg"
             android:text="Seg" />
 
     </LinearLayout>

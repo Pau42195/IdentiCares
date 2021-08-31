@@ -37,7 +37,6 @@ public class act_mnt_edita  extends AppCompatActivity {
     public static final String ARG_ITEM_ID = "item_id";
     private int numIndex; // Index 0..N del item que s'està veient dins la llista @objLlistaTrobades
     private classDiccionari mItem;
-    Boolean ResetApres = false;
     GestorDB db;
 
     // Imatges
@@ -53,11 +52,10 @@ public class act_mnt_edita  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mnt_edita);
-        ResetApres = false;
         numIndex = Integer.parseInt(getIntent().getStringExtra(ARG_ITEM_ID));
         CarpetaImatges = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pau/GeniusCares/Imatges";
         db=  new GestorDB(getApplicationContext());
-        if (numIndex == 0) {
+        if (numIndex < 0) {
             mItem = new classDiccionari();
         } else {
             mItem = objLlistaTrobats.ITEMS.get(numIndex);
@@ -308,15 +306,16 @@ public class act_mnt_edita  extends AppCompatActivity {
         numImatge = nomsImatge.length+1;
         nomsImatge = Arrays.copyOf(nomsImatge, numImatge);
         nomsImatge[numImatge - 1] = imatge.getName();
-
+        if (mItem.getNextTipus().equals("t")) {
+            mItem.setNextTipus("a");
+        }
     }
 
     /********************************************************************/
     /**************  Comandaments botons  *******************************/
     /********************************************************************/
 
-
-    public void cmd_Ok(View view) {
+    private void SalvaItem() {
         db.open();
         DescarregaItem(mItem);
         if (mItem.getId() == 0) {
@@ -325,6 +324,10 @@ public class act_mnt_edita  extends AppCompatActivity {
             db.actDiccionari(mItem);
         }
         db.close();
+    }
+
+    public void cmd_Ok(View view) {
+        SalvaItem();
         finish();
     }
 
@@ -363,12 +366,22 @@ public class act_mnt_edita  extends AppCompatActivity {
         // Fi MsgBox
     }
 
-    public void cmd_Ant() {
-
+    public void cmd_Ant(View view) {
+        SalvaItem();
+        if (numIndex>0) {
+            numIndex--;
+            mItem = objLlistaTrobats.ITEMS.get(numIndex);
+        }
+        CarregaItem(mItem);
     }
 
-    public void cmd_Seg() {
-
+    public void cmd_Seg(View view) {
+        SalvaItem();
+        if (numIndex<objLlistaTrobats.ITEMS.size()-1) {
+            numIndex++;
+            mItem = objLlistaTrobats.ITEMS.get(numIndex);
+        }
+        CarregaItem(mItem);
     }
 
     /***************************************************************************************/
