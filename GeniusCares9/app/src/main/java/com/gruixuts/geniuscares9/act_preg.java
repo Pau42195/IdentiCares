@@ -2,6 +2,7 @@ package com.gruixuts.geniuscares9;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -34,6 +35,7 @@ public class act_preg extends AppCompatActivity {
     classResposta resposta;
     classResposta avaluacioInici;
     classResposta avaluacioFinal;
+    String TallVeu;
     boolean FetAmbVeu = false;
     String Resultat;
 
@@ -58,6 +60,7 @@ public class act_preg extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preg);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         NumProva = Integer.parseInt(getIntent().getStringExtra(ARG_NUM_PROVA));
         db=new GestorDB(getApplicationContext());
         db.open();
@@ -105,6 +108,9 @@ public class act_preg extends AppCompatActivity {
             numImatge = 0;
             nomsImatge = new String[0];
         }
+        if (numImatge==0) {
+            ((ImageView) findViewById(R.id.imgImatges)).setImageResource(R.mipmap.ic_launcher);
+        }
         TempsIniciPregunta = SystemClock.currentThreadTimeMillis();
     }
     public void CarregaResp(classResposta resp) {
@@ -144,8 +150,8 @@ public class act_preg extends AppCompatActivity {
 
     public classResposta Tradueix(List<String> llistaS) {
         classResposta Rslt;
-        String Frase = llistaS.get(0);
-        String[] llista = Frase.replace('-',' ').split(" ");
+        TallVeu = llistaS.get(0);
+        String[] llista = TallVeu.replace('-',' ').split(" ");
         Rslt = new classResposta();
         if (llista.length==5) {
             if (("0123456789").indexOf( llista[3])!=-1) {
@@ -186,6 +192,7 @@ public class act_preg extends AppCompatActivity {
         intent.putExtra( act_preg_aval.ARG_ID_ITEM, Actual.toString());
         intent.putExtra(act_preg_aval.ARG_RESP, resposta.toString());
         intent.putExtra(act_preg_aval.ARG_AVAL, avaluacioInici.toString());
+        intent.putExtra(act_preg_aval.ARG_TALLVEU, TallVeu);
         startActivityForResult(intent, REQUEST_CODE);
     }
 

@@ -1,6 +1,7 @@
 package com.gruixuts.geniuscares9;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -16,6 +17,7 @@ public class act_mnt_sel extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mnt_sel);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ((TextView) findViewById(R.id.edtMntId)).setText("");
         ((TextView) findViewById(R.id.edtMntNom)).setText("");
         ((TextView) findViewById(R.id.edtMntCognom1)).setText("");
@@ -43,7 +45,7 @@ public class act_mnt_sel extends AppCompatActivity {
         if (((TextView) findViewById(R.id.edtMntCognom2)).getText().length()!=0) {
             Filtre += " and (Cognom2 like '" + ((TextView) findViewById(R.id.edtMntCognom2)).getText() + "' )";
         }
-        if (((TextView) findViewById(R.id.edtMntCognom1)).getText().length()!=0) {
+        if (((TextView) findViewById(R.id.edtMntCurs)).getText().length()!=0) {
             Filtre += " and (Curs like '" + ((TextView) findViewById(R.id.edtMntCurs)).getText() + "' )";
         }
         if (((TextView) findViewById(R.id.edtMntSiCodi)).getText().length()!=0) {

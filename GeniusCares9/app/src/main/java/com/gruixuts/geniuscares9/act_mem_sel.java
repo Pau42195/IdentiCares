@@ -1,6 +1,7 @@
 package com.gruixuts.geniuscares9;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -14,6 +15,7 @@ public class act_mem_sel  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mem_sel);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ((TextView) findViewById(R.id.edtMmrId)).setText("");
         ((TextView) findViewById(R.id.edtMmrNom)).setText("");
         ((TextView) findViewById(R.id.edtMmrCognom1)).setText("");

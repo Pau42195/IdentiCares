@@ -3,6 +3,7 @@ package com.gruixuts.geniuscares9;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class act_import_export  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import_export);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         estat = findViewById(R.id.txtEstat);
         estat.setText("preparat");
@@ -127,8 +129,8 @@ public class act_import_export  extends AppCompatActivity {
                                     camps[7],                   //Codi
                                     camps[8],                   //PAV
                                     camps[9],                   //Comentaris
-                                    camps[10],                   //Grup
-                                    camps[11],                   //NextTipus
+                                    camps[10],                  //Grup
+                                    camps[11],                  //NextTipus
                                     camps[12].equals("") ? null : frmtData.parse(camps[12]), //NextData
                                     camps[13].equals("true"))
                             );

@@ -3,6 +3,7 @@ package com.gruixuts.geniuscares9;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,7 +26,7 @@ public class act_mem extends AppCompatActivity {
     //List<classDiccionari> Llista;
     SimpleDateFormat frmtData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     GestorDB db;
-    Integer Actual;
+    Integer Actual = 0;
     classDiccionari mItem;
     classProves Prova = null;
     //String Filtre="";
@@ -44,6 +45,7 @@ public class act_mem extends AppCompatActivity {
         Integer NumProva;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mem);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //txtNom = (TextView) findViewById(R.id.txtMemNom);
         //txtCognom1 = (TextView) findViewById(R.id.txtMemCognom1);
         //txtCognom2 = (TextView) findViewById(R.id.txtMemCognom2);
@@ -52,7 +54,7 @@ public class act_mem extends AppCompatActivity {
         //edtMemComentaris = (TextView) findViewById(R.id.edtMemComentaris);
         //vwImatge = (ImageView) findViewById(R.id.imgImatges);
         //Llista = objLlistaTrobats.ITEMS;
-        Actual=0;
+        //Actual=0; No, ja que cada cop que gires el telèfon es tornaria a posar a 0
         mItem = objLlistaTrobats.ITEMS.get(Actual);
         TempsIniciProva = SystemClock.currentThreadTimeMillis();
         CarpetaImatges = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pau/GeniusCares/Imatges";
@@ -68,11 +70,11 @@ public class act_mem extends AppCompatActivity {
     private void CarregaItem(classDiccionari item) {
         assert (item != null);
         ((TextView) findViewById(R.id.txtMemNom)).setText(item.getNom());
-        ((TextView) findViewById(R.id.txtMemCognom1)).setText(item.getNom());
-        ((TextView) findViewById(R.id.txtMemCognom2)).setText(item.getNom());
-        ((TextView) findViewById(R.id.txtMemCurs)).setText(item.getNom());
-        ((TextView) findViewById(R.id.edtMemPAV)).setText(item.getNom());
-        ((TextView) findViewById(R.id.edtMemComentaris)).setText(item.getNom());
+        ((TextView) findViewById(R.id.txtMemCognom1)).setText(item.getCognom1());
+        ((TextView) findViewById(R.id.txtMemCognom2)).setText(item.getCognom2());
+        ((TextView) findViewById(R.id.txtMemCurs)).setText(item.getCurs());
+        ((TextView) findViewById(R.id.edtMemPAV)).setText(item.getPAV());
+        ((TextView) findViewById(R.id.edtMemComentaris)).setText(item.getComentaris());
         ((TextView) findViewById(R.id.txtCompt)).setText("Actual: " + (Actual + 1) + "/" + objLlistaTrobats.ITEMS.size());
 
 
@@ -101,6 +103,9 @@ public class act_mem extends AppCompatActivity {
             CarpetaImatgesItem = "";
             numImatge = 0;
             nomsImatge = new String[0];
+        }
+        if (numImatge==0) {
+            ((ImageView) findViewById(R.id.imgImatges)).setImageResource(R.mipmap.ic_launcher);
         }
         TempsIniciPregunta = SystemClock.currentThreadTimeMillis();
     }

@@ -24,6 +24,7 @@ public class act_mnt_llista extends AppCompatActivity  {
 
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.tst_toolbar);
+        toolbar.setTitle("Manteniment (" + objLlistaTrobats.ITEMS.size() + ")");
         setSupportActionBar(toolbar);
     }
 

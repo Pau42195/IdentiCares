@@ -2,6 +2,7 @@ package com.gruixuts.geniuscares9;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,6 +22,7 @@ public class act_preg_aval extends AppCompatActivity {
     private classDiccionari mItem;
     private classResposta Resp;
     private classResposta Avaluacio;
+    private String TallVeu;
     GestorDB db;
 
     // Imatges
@@ -34,17 +36,19 @@ public class act_preg_aval extends AppCompatActivity {
     public static final String ARG_RESP = "resposta";
     public static final String ARG_AVAL = "avaluacio";
     public static final String ARG_CORR = "corregit";
-
+    public static final String ARG_TALLVEU = "TallVeu";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preg_aval);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 //        numIndex = Integer.parseInt(getIntent().getStringExtra( "item_id"));
 //        numIndex = Integer.parseInt(getIntent().getStringExtra( Global.ARG_PREG_AVAL_ITEM_ID));
         numIndex = Integer.parseInt(getIntent().getStringExtra(ARG_ID_ITEM));
         Resp = new classResposta(getIntent().getStringExtra(ARG_RESP));
         Avaluacio = new classResposta(getIntent().getStringExtra(ARG_AVAL));
+        TallVeu = getIntent().getStringExtra(ARG_TALLVEU);
         CarpetaImatges = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pau/GeniusCares/Imatges";
         db=  new GestorDB(getApplicationContext());
         mItem = objLlistaTrobats.ITEMS.get(numIndex);
@@ -122,7 +126,7 @@ public class act_preg_aval extends AppCompatActivity {
                     ((RadioButton) findViewById(R.id.rdCursOblid)).setChecked(true);
                     break;
             }
-
+            ((TextView) findViewById(R.id.txtValVeuRsp)).setText(TallVeu);
 
             // Imatges:
             if (item.getImatges()!=null) {
@@ -149,6 +153,9 @@ public class act_preg_aval extends AppCompatActivity {
                 CarpetaImatgesItem="";
                 numImatge = 0;
                 nomsImatge = new String[0];
+            }
+            if (numImatge==0) {
+                ((ImageView) findViewById(R.id.imgImatges)).setImageResource(R.mipmap.ic_launcher);
             }
         } else {
             Global.MissatgeError("item=null, i no hauria de ser",this);

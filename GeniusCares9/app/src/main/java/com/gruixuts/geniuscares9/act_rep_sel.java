@@ -1,6 +1,7 @@
 package com.gruixuts.geniuscares9;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -26,6 +27,7 @@ public class act_rep_sel extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rep_sel);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         db = new GestorDB(getApplicationContext());
         TextView txtr1h = findViewById(R.id.txtRep1h);

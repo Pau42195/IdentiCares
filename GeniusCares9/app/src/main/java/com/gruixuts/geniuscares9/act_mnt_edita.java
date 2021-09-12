@@ -5,6 +5,7 @@ import static java.lang.Integer.parseInt;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -52,6 +53,7 @@ public class act_mnt_edita  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mnt_edita);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         numIndex = Integer.parseInt(getIntent().getStringExtra(ARG_ITEM_ID));
         CarpetaImatges = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pau/GeniusCares/Imatges";
         db=  new GestorDB(getApplicationContext());
@@ -130,6 +132,9 @@ public class act_mnt_edita  extends AppCompatActivity {
                 numImatge = 0;
                 nomsImatge = new String[0];
             }
+            if (numImatge==0) {
+                ((ImageView) findViewById(R.id.imgImatges)).setImageResource(R.mipmap.ic_launcher);
+            }
         } else {
             MissatgeError("item=null, i no hauria de ser");
             ((TextView) findViewById(R.id.txtModId)).setText("");
@@ -142,6 +147,7 @@ public class act_mnt_edita  extends AppCompatActivity {
             ((TextView) findViewById(R.id.edtModGrup)).setText("");
             ((RadioButton) findViewById(R.id.rdT)).setChecked(true);
             ((TextView) findViewById(R.id.edtModNextData)).setText("");
+            ((ImageView) findViewById(R.id.imgImatges)).setImageResource(R.mipmap.ic_launcher);
             Toast toast = Toast.makeText(getApplicationContext(), "No hi ha res" , Toast.LENGTH_LONG);
             toast.show();
         }
